@@ -1,0 +1,175 @@
+:root {
+  --fundo: #f6f3ef;
+  --cartao: #ffffff;
+  --texto: #2a2622;
+  --suave: #7a716a;
+  --linha: #e7e0d8;
+  --marca: #2f6f6a;      /* verde-azulado: odontologia */
+  --marca-claro: #e3efed;
+  --rosa: #b2566b;       /* estética */
+  --rosa-claro: #f6e6ea;
+  --azul: #3d6fb5; --verde: #2e8b57; --laranja: #c7781f; --vermelho: #c0392b; --cinza: #8a8580;
+  --raio: 14px;
+  --sombra: 0 1px 2px rgba(0,0,0,.05), 0 4px 14px rgba(60,40,20,.06);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fundo); color: var(--texto); font-size: 16px; line-height: 1.4;
+  padding-bottom: 60px;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* Topo */
+.topo {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--marca); color: #fff;
+  padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+}
+.topo .marca { flex: 1; min-width: 0; }
+.topo .marca b { display: block; font-size: 17px; letter-spacing: .2px; }
+.topo .marca small { opacity: .8; font-size: 12.5px; }
+.topo .acoes { display: flex; gap: 6px; align-items: center; }
+.topo a, .topo button.link {
+  color: #fff; text-decoration: none; background: rgba(255,255,255,.14);
+  border: 0; border-radius: 10px; padding: 7px 11px; font-size: 14px; cursor: pointer;
+}
+.topo #quem { font-size: 13px; opacity: .85; margin-right: 4px; }
+
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .6px; color: var(--suave); margin: 22px 4px 10px; }
+
+.cartao { background: var(--cartao); border-radius: var(--raio); box-shadow: var(--sombra); padding: 16px; margin-bottom: 14px; }
+
+/* Passos numerados do formulário */
+.passo { display: flex; gap: 12px; margin-bottom: 18px; }
+.passo .num {
+  flex: 0 0 28px; height: 28px; border-radius: 50%; background: var(--marca); color: #fff;
+  display: grid; place-items: center; font-weight: 700; font-size: 14px; margin-top: 2px;
+}
+.passo .corpo { flex: 1; min-width: 0; }
+.passo label.tit { display: block; font-weight: 600; margin-bottom: 8px; }
+
+input[type=text], input[type=tel], input[type=date], input[type=email], input[type=password], select, textarea {
+  width: 100%; padding: 11px 12px; border: 1.5px solid var(--linha); border-radius: 10px; background: #fff;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--marca); }
+textarea { min-height: 70px; resize: vertical; }
+.linha2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 0; border-radius: 12px; padding: 12px 16px; font-weight: 600; cursor: pointer;
+  background: var(--marca); color: #fff;
+}
+.btn.grande { width: 100%; padding: 15px; font-size: 17px; }
+.btn.sec { background: var(--marca-claro); color: var(--marca); }
+.btn.perigo { background: #fbeceb; color: var(--vermelho); }
+.btn.peq { padding: 7px 11px; font-size: 14px; border-radius: 9px; }
+.btn:disabled { opacity: .5; cursor: default; }
+
+/* Busca de paciente */
+.sugestoes { border: 1.5px solid var(--linha); border-radius: 10px; margin-top: 6px; overflow: hidden; }
+.sugestoes button { display: block; width: 100%; text-align: left; padding: 10px 12px; background: #fff; border: 0; border-bottom: 1px solid var(--linha); cursor: pointer; }
+.sugestoes button:last-child { border-bottom: 0; }
+.sugestoes button:hover { background: var(--marca-claro); }
+.sugestoes small { color: var(--suave); }
+.escolhido { display: flex; align-items: center; gap: 10px; background: var(--marca-claro); border-radius: 10px; padding: 10px 12px; }
+.escolhido b { flex: 1; }
+
+/* Serviços */
+.servicos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.servicos .grupo { grid-column: 1 / -1; font-size: 13px; font-weight: 700; color: var(--suave); margin-top: 6px; }
+.servicos button {
+  text-align: left; padding: 10px 11px; border-radius: 10px; border: 1.5px solid var(--linha);
+  background: #fff; cursor: pointer; line-height: 1.25;
+}
+.servicos button small { display: block; color: var(--suave); font-size: 12.5px; margin-top: 2px; }
+.servicos button.odo.ativo { border-color: var(--marca); background: var(--marca-claro); }
+.servicos button.est.ativo { border-color: var(--rosa); background: var(--rosa-claro); }
+
+/* Navegação de dias */
+.dias { display: flex; align-items: center; gap: 8px; }
+.dias .rotulo { flex: 1; text-align: center; font-weight: 700; }
+.dias button { width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--marca-claro); color: var(--marca); font-size: 20px; cursor: pointer; }
+
+/* Horários */
+.horarios { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 8px; margin-top: 12px; }
+.horarios button { padding: 10px 0; border-radius: 10px; border: 1.5px solid var(--linha); background: #fff; cursor: pointer; font-weight: 600; }
+.horarios button.ativo { background: var(--marca); color: #fff; border-color: var(--marca); }
+.horarios button:disabled { background: #f0ebe5; color: #b9b0a7; text-decoration: line-through; cursor: not-allowed; border-color: transparent; }
+.vazio { color: var(--suave); text-align: center; padding: 18px 8px; }
+
+/* Lista de marcações */
+.marc { display: flex; gap: 12px; padding: 12px; border-radius: 12px; background: #fff; box-shadow: var(--sombra); margin-bottom: 10px; border-left: 5px solid var(--marca); cursor: pointer; }
+.marc.est { border-left-color: var(--rosa); }
+.marc.cancelado { opacity: .55; }
+.marc .hora { flex: 0 0 58px; font-weight: 800; font-size: 17px; }
+.marc .hora small { display: block; font-weight: 500; color: var(--suave); font-size: 12.5px; }
+.marc .info { flex: 1; min-width: 0; }
+.marc .info b { display: block; }
+.marc .info .srv { color: var(--suave); font-size: 14px; }
+.marc .info .obs { font-size: 13.5px; margin-top: 4px; color: #5d554e; }
+.marc .lado { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.marc.novo { animation: brilho 2.4s ease-out; }
+@keyframes brilho { 0% { box-shadow: 0 0 0 4px #f3c969; } 100% { box-shadow: var(--sombra); } }
+
+/* Linha do tempo (agenda da Jimena) */
+.livre { padding: 8px 12px 8px 70px; color: #b3aaa1; font-size: 14px; border-bottom: 1px dashed var(--linha); position: relative; }
+.livre span { position: absolute; left: 12px; font-weight: 600; }
+
+.selo { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+.selo.azul { background: #e7eef9; color: var(--azul); }
+.selo.verde { background: #e3f3ea; color: var(--verde); }
+.selo.cinza { background: #efedeb; color: var(--cinza); }
+.selo.laranja { background: #fbefe0; color: var(--laranja); }
+.selo.vermelho { background: #fbeceb; color: var(--vermelho); }
+.area { font-size: 11.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; }
+.area.odo { background: var(--marca-claro); color: var(--marca); }
+.area.est { background: var(--rosa-claro); color: var(--rosa); }
+.trat { font-size: 11.5px; font-weight: 700; color: #8a5a00; background: #fff3d6; padding: 2px 7px; border-radius: 6px; }
+
+/* Resumo do dia */
+.resumo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.resumo div { background: var(--marca-claro); border-radius: 10px; padding: 10px; text-align: center; }
+.resumo b { display: block; font-size: 22px; color: var(--marca); }
+.resumo small { color: var(--suave); }
+
+/* Janela (detalhe) */
+.fundo-janela { position: fixed; inset: 0; background: rgba(30,20,10,.45); display: none; z-index: 50; align-items: flex-end; justify-content: center; }
+.fundo-janela.aberta { display: flex; }
+.janela { background: #fff; width: 100%; max-width: 560px; max-height: 88vh; overflow: auto; border-radius: 18px 18px 0 0; padding: 18px; }
+.janela h3 { margin: 0 0 4px; }
+.janela .grade { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+@media (min-width: 640px) { .fundo-janela { align-items: center; } .janela { border-radius: 18px; } }
+
+/* Histórico do paciente */
+.hist { position: relative; padding-left: 22px; }
+.hist::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: var(--linha); }
+.hist .item { position: relative; margin-bottom: 14px; }
+.hist .item::before { content: ""; position: absolute; left: -20px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--marca); border: 2px solid #fff; box-shadow: 0 0 0 2px var(--marca); }
+.hist .item.est::before { background: var(--rosa); box-shadow: 0 0 0 2px var(--rosa); }
+.hist .item.futuro::before { background: #fff; }
+.hist .data { font-size: 13px; color: var(--suave); font-weight: 600; }
+.hist .anot { background: #faf7f3; border-radius: 10px; padding: 10px; margin-top: 6px; white-space: pre-wrap; font-size: 14.5px; }
+
+/* Abas */
+.abas { display: flex; gap: 6px; background: #ebe4dc; padding: 4px; border-radius: 12px; margin-bottom: 14px; }
+.abas button { flex: 1; border: 0; background: transparent; padding: 10px; border-radius: 9px; font-weight: 600; color: var(--suave); cursor: pointer; }
+.abas button.ativa { background: #fff; color: var(--texto); box-shadow: var(--sombra); }
+
+/* Avisos */
+#avisos { position: fixed; left: 50%; transform: translateX(-50%); bottom: 18px; z-index: 99; display: flex; flex-direction: column; gap: 8px; width: min(92vw, 420px); }
+.aviso { background: #2a2622; color: #fff; padding: 12px 14px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,.25); transition: opacity .6s; }
+.aviso.erro { background: var(--vermelho); }
+.aviso.novo { background: #8a5a00; }
+.aviso.some { opacity: 0; }
+
+.ao-vivo { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--suave); }
+.ao-vivo::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #bbb; }
+.ao-vivo.ligado::before { background: #2ecc71; box-shadow: 0 0 0 3px rgba(46,204,113,.25); }
+
+.versao { position: fixed; right: 8px; bottom: 6px; font-size: 11px; color: #b0a79e; }
+.dica { font-size: 13px; color: var(--suave); margin-top: 6px; }
+.centro { text-align: center; }
