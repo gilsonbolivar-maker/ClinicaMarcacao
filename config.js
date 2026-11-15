@@ -1,11 +1,11 @@
 // Configurações da clínica — troque aqui sem mexer no resto do código.
 window.CONFIG = {
-  versao: "1.1.5",
+  versao: "1.1.6",
   clinica: "Jimena Andrade",
-  subtitulo: "Odontologia e Estética",
+  subtitulo: "Harmonização Orofacial",
 
   // Informações da página pública. O que ficar vazio ("") não aparece no site.
-  sobre: "Contra os efeitos do tempo. A favor da sua beleza. Harmonização orofacial: botox, preenchimentos e bioestimuladores de colágeno.",
+  sobre: "Contra os efeitos do tempo. A favor da sua beleza. Botox, preenchimentos e bioestimuladores de colágeno. Dúvidas e agendamentos pelo WhatsApp ou aqui pelo site.",
   registro: "",     // ex.: "CRO-BA 00000"
   whatsapp: "77998000177",     // só números, com DDD. ex.: "77999990000"
   endereco: "Avenida Santana, 328",     // ex.: "Rua Tal, 123 — Centro"

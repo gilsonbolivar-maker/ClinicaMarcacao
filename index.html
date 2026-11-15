@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2f6f6a">
-<meta name="description" content="Jimena Andrade — Odontologia e Estética. Peça sua primeira consulta ou remarque seu atendimento pela internet.">
-<title>Jimena Andrade — Odontologia e Estética</title>
-<link rel="stylesheet" href="estilo.css?v=1.1.5">
+<meta name="description" content="Jimena Andrade — Harmonização Orofacial. Botox, preenchimentos e bioestimuladores de colágeno em Caetité. Peça sua primeira consulta ou remarque seu atendimento pela internet.">
+<title>Jimena Andrade — Harmonização Orofacial</title>
+<link rel="stylesheet" href="estilo.css?v=1.1.6">
 </head>
 <body style="padding-bottom:0">
 
@@ -43,10 +43,10 @@
   <div id="blocoServicos" hidden>
     <h2>Serviços</h2>
     <div class="cartao">
-      <p style="margin:0 0 8px"><span class="area odo">Odontologia</span></p>
-      <ul class="lista-serv" id="servOdo"></ul>
-      <p style="margin:16px 0 8px"><span class="area est">Estética</span></p>
+      <p style="margin:0 0 8px"><span class="area est">Harmonização orofacial e estética</span></p>
       <ul class="lista-serv est" id="servEst"></ul>
+      <p style="margin:16px 0 8px"><span class="area odo">Odontologia</span></p>
+      <ul class="lista-serv" id="servOdo"></ul>
     </div>
   </div>
 
@@ -61,7 +61,7 @@
   <div class="cartao contato">
     <p>🕗 <b id="horario"></b></p>
     <p id="pEndereco" hidden>📍 <span id="endereco"></span></p>
-    <p id="pWhats" hidden>💬 <a id="whats" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+    <p id="pWhats" hidden>💬 <a id="whats" target="_blank" rel="noopener">(77) 99800-0177 — dúvidas e agendamentos</a></p>
     <p id="pInsta" hidden style="margin:0">📷 <a id="insta" target="_blank" rel="noopener"></a></p>
   </div>
 </main>
@@ -71,8 +71,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=1.1.5"></script>
-<script src="comum.js?v=1.1.5"></script>
+<script src="config.js?v=1.1.6"></script>
+<script src="comum.js?v=1.1.6"></script>
 <script>
 $("#sobre").textContent = C.sobre;
 $("#horasRegra").textContent = C.antecedenciaRemarcarHoras;
@@ -88,7 +88,7 @@ $("#horario").textContent = `${textoDias[0].toUpperCase() + textoDias.slice(1)},
 
 const local2 = [C.endereco, C.cidade].filter(Boolean).join(" — ");
 if (local2) { $("#pEndereco").hidden = false; $("#endereco").textContent = local2; }
-if (C.whatsapp) { $("#pWhats").hidden = false; $("#whats").href = "https://wa.me/55" + telDigitos(C.whatsapp); }
+if (C.whatsapp) { $("#pWhats").hidden = false; $("#whats").href = "https://wa.me/55" + telDigitos(C.whatsapp) + "?text=" + encodeURIComponent("Olá! Vim pelo site e gostaria de tirar uma dúvida."); }
 if (C.instagram) { $("#pInsta").hidden = false; $("#insta").href = "https://instagram.com/" + C.instagram; $("#insta").textContent = "@" + C.instagram; }
 
 carregarServicos().then((lista) => {
