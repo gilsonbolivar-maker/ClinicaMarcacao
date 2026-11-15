@@ -3,76 +3,130 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2f6f6a">
+<meta name="theme-color" content="#1e5550">
 <meta name="description" content="Jimena Andrade — Harmonização Orofacial. Botox, preenchimentos e bioestimuladores de colágeno em Caetité. Peça sua primeira consulta ou remarque seu atendimento pela internet.">
 <title>Jimena Andrade — Harmonização Orofacial</title>
-<link rel="stylesheet" href="estilo.css?v=1.1.6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css?v=1.2.0">
 </head>
-<body style="padding-bottom:0">
+<body class="publico">
 
-<section class="capa">
-  <div class="circ">JA</div>
-  <h1 data-clinica></h1>
-  <p data-subtitulo></p>
-  <p class="reg" id="registro" hidden></p>
-</section>
-
-<div class="chamadas">
-  <a class="chamada" href="cliente.html?aba=inscricao">
-    <div class="ic">🗓️</div>
-    <div><b>Pedir primeira consulta</b><small>Faça sua inscrição e escolha o dia e o horário</small></div>
-    <span class="seta">›</span>
-  </a>
-  <a class="chamada rosa" href="cliente.html?aba=entrar">
-    <div class="ic">🔁</div>
-    <div><b>Remarcar atendimento</b><small>Para quem já tem horário marcado</small></div>
-    <span class="seta">›</span>
-  </a>
-</div>
+<header class="barra">
+  <div class="barra-interna">
+    <a class="marca-site" href="index.html">
+      <span class="circ" aria-hidden="true">JA</span>
+      <span class="marca-txt">
+        <b data-clinica></b>
+        <small data-subtitulo></small>
+      </span>
+    </a>
+    <nav class="nav-site" aria-label="Nesta página">
+      <a href="#servicos">Serviços</a>
+      <a href="#como">Como marcar</a>
+      <a href="#atendimento">Atendimento</a>
+      <a class="btn barra-cta" href="cliente.html?aba=inscricao">Pedir consulta</a>
+    </nav>
+  </div>
+</header>
 
 <main>
-  <div class="regra" style="margin-top:18px">
-    <b>Regra para remarcar</b>
-    A remarcação pela internet só vale se for feita com pelo menos <span id="horasRegra">72</span> horas de antecedência.
-    Com menos tempo que isso, a remarcação é feita pessoalmente com o atendimento da clínica.
-  </div>
+  <section class="hero">
+    <div class="hero-texto">
+      <p class="eyebrow" data-subtitulo></p>
+      <h1 data-clinica></h1>
+      <p class="reg" id="registro" hidden></p>
+      <p class="lead" id="sobre"></p>
 
-  <h2>Sobre</h2>
-  <div class="cartao"><p id="sobre" style="margin:0"></p></div>
+      <div class="acoes-hero">
+        <a class="acao" href="cliente.html?aba=inscricao">
+          <span class="acao-tit">Pedir primeira consulta</span>
+          <span class="acao-sub">Faça sua inscrição e escolha o dia e o horário</span>
+        </a>
+        <a class="acao secundaria" href="cliente.html?aba=entrar">
+          <span class="acao-tit">Remarcar atendimento</span>
+          <span class="acao-sub">Para quem já tem horário marcado</span>
+        </a>
+      </div>
 
-  <div id="blocoServicos" hidden>
-    <h2>Serviços</h2>
-    <div class="cartao">
-      <p style="margin:0 0 8px"><span class="area est">Harmonização orofacial e estética</span></p>
-      <ul class="lista-serv est" id="servEst"></ul>
-      <p style="margin:16px 0 8px"><span class="area odo">Odontologia</span></p>
-      <ul class="lista-serv" id="servOdo"></ul>
+      <div class="regra">
+        <b>Regra para remarcar</b>
+        A remarcação pela internet só vale se for feita com pelo menos <span id="horasRegra">72</span> horas de antecedência.
+        Com menos tempo que isso, a remarcação é feita pessoalmente com o atendimento da clínica.
+      </div>
     </div>
-  </div>
 
-  <h2>Como marcar</h2>
-  <div class="cartao">
-    <div class="passo"><div class="num">1</div><div class="corpo"><b>Faça sua inscrição</b><br><span class="dica">Nome, telefone, nascimento e uma senha.</span></div></div>
-    <div class="passo"><div class="num">2</div><div class="corpo"><b>Escolha o dia e o horário</b><br><span class="dica">A agenda mostra só os horários livres.</span></div></div>
-    <div class="passo" style="margin-bottom:0"><div class="num">3</div><div class="corpo"><b>Pronto</b><br><span class="dica">A clínica recebe seu pedido na mesma hora.</span></div></div>
-  </div>
+    <aside class="coluna-atendimento" id="atendimento">
+      <h2>Atendimento</h2>
+      <div class="painel">
+        <div class="fato">
+          <span class="rot">Horário</span>
+          <b id="horario"></b>
+        </div>
+        <div class="fato" id="pEndereco" hidden>
+          <span class="rot">Endereço</span>
+          <span id="endereco"></span>
+        </div>
+        <div class="fato" id="pWhats" hidden>
+          <span class="rot">WhatsApp</span>
+          <a id="whats" target="_blank" rel="noopener">(77) 99800-0177 — dúvidas e agendamentos</a>
+        </div>
+        <div class="fato" id="pInsta" hidden>
+          <span class="rot">Instagram</span>
+          <a id="insta" target="_blank" rel="noopener"></a>
+        </div>
+      </div>
+    </aside>
+  </section>
 
-  <h2>Atendimento</h2>
-  <div class="cartao contato">
-    <p>🕗 <b id="horario"></b></p>
-    <p id="pEndereco" hidden>📍 <span id="endereco"></span></p>
-    <p id="pWhats" hidden>💬 <a id="whats" target="_blank" rel="noopener">(77) 99800-0177 — dúvidas e agendamentos</a></p>
-    <p id="pInsta" hidden style="margin:0">📷 <a id="insta" target="_blank" rel="noopener"></a></p>
-  </div>
+  <section class="secao" id="servicos">
+    <div id="blocoServicos" hidden>
+      <h2>Serviços</h2>
+      <div class="grade-serv">
+        <article class="cartao area-card est">
+          <p class="area-nome"><span class="area est">Harmonização orofacial e estética</span></p>
+          <ul class="lista-serv est" id="servEst"></ul>
+        </article>
+        <article class="cartao area-card odo">
+          <p class="area-nome"><span class="area odo">Odontologia</span></p>
+          <ul class="lista-serv" id="servOdo"></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" id="como">
+    <h2>Como marcar</h2>
+    <div class="etapas">
+      <article class="etapa">
+        <span class="etapa-n">1</span>
+        <h3>Faça sua inscrição</h3>
+        <p>Nome, telefone, nascimento e uma senha.</p>
+      </article>
+      <article class="etapa">
+        <span class="etapa-n">2</span>
+        <h3>Escolha o dia e o horário</h3>
+        <p>A agenda mostra só os horários livres.</p>
+      </article>
+      <article class="etapa">
+        <span class="etapa-n">3</span>
+        <h3>Pronto</h3>
+        <p>A clínica recebe seu pedido na mesma hora.</p>
+      </article>
+    </div>
+  </section>
 </main>
 
-<div class="rodape-site">
-  <span data-clinica></span> · <a href="entrar.html">Área da equipe</a>
-</div>
+<footer class="rodape-site">
+  <span data-clinica></span>
+  <span aria-hidden="true">·</span>
+  <a href="entrar.html">Área da equipe</a>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=1.1.6"></script>
-<script src="comum.js?v=1.1.6"></script>
+<script src="config.js?v=1.2.0"></script>
+<script src="comum.js?v=1.2.0"></script>
 <script>
 $("#sobre").textContent = C.sobre;
 $("#horasRegra").textContent = C.antecedenciaRemarcarHoras;
@@ -92,11 +146,17 @@ if (C.whatsapp) { $("#pWhats").hidden = false; $("#whats").href = "https://wa.me
 if (C.instagram) { $("#pInsta").hidden = false; $("#insta").href = "https://instagram.com/" + C.instagram; $("#insta").textContent = "@" + C.instagram; }
 
 carregarServicos().then((lista) => {
-  if (!lista.length) return;
-  const li = (s) => `<li>${esc(s.nome)}</li>`;
-  $("#servOdo").innerHTML = lista.filter((s) => s.area === "Odontologia").map(li).join("");
-  $("#servEst").innerHTML = lista.filter((s) => s.area === "Estética").map(li).join("");
-  $("#blocoServicos").hidden = false;
+  if (lista.length) {
+    const li = (s) => `<li>${esc(s.nome)}</li>`;
+    $("#servOdo").innerHTML = lista.filter((s) => s.area === "Odontologia").map(li).join("");
+    $("#servEst").innerHTML = lista.filter((s) => s.area === "Estética").map(li).join("");
+    $("#blocoServicos").hidden = false;
+  }
+  // Os serviços entram depois e empurram a página; o link interno precisa descer de novo.
+  if (location.hash.length > 1) {
+    const alvo = document.querySelector(location.hash);
+    if (alvo) alvo.scrollIntoView({ block: "start" });
+  }
 }).catch(() => {});
 </script>
 </body>
