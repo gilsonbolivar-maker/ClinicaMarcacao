@@ -4,68 +4,100 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2f6f6a">
-<title>Entrar — Jimena Andrade</title>
+<meta name="description" content="Jimena Andrade — Odontologia e Estética. Peça sua primeira consulta ou remarque seu atendimento pela internet.">
+<title>Jimena Andrade — Odontologia e Estética</title>
 <link rel="stylesheet" href="estilo.css">
-<style>
-  .tela { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
-  .caixa { width: 100%; max-width: 380px; }
-  .logo { text-align: center; margin-bottom: 18px; }
-  .logo .circ { width: 64px; height: 64px; margin: 0 auto 10px; border-radius: 50%; background: var(--marca); color: #fff; display: grid; place-items: center; font-size: 26px; font-weight: 800; }
-  .logo b { display: block; font-size: 22px; }
-  .logo small { color: var(--suave); }
-  form > * + * { margin-top: 10px; }
-  .teste { margin-top: 18px; border-top: 1px dashed var(--linha); padding-top: 14px; }
-  .teste p { font-size: 13px; color: var(--suave); margin: 0 0 8px; }
-  .teste .linha2 .btn { width: 100%; }
-</style>
 </head>
-<body>
-<div class="tela">
-  <div class="caixa">
-    <div class="logo">
-      <div class="circ">JA</div>
-      <b data-clinica></b>
-      <small data-subtitulo></small>
-    </div>
+<body style="padding-bottom:0">
+
+<section class="capa">
+  <div class="circ">JA</div>
+  <h1 data-clinica></h1>
+  <p data-subtitulo></p>
+  <p class="reg" id="registro" hidden></p>
+</section>
+
+<div class="chamadas">
+  <a class="chamada" href="cliente.html?aba=inscricao">
+    <div class="ic">🗓️</div>
+    <div><b>Pedir primeira consulta</b><small>Faça sua inscrição e escolha o dia e o horário</small></div>
+    <span class="seta">›</span>
+  </a>
+  <a class="chamada rosa" href="cliente.html?aba=entrar">
+    <div class="ic">🔁</div>
+    <div><b>Remarcar atendimento</b><small>Para quem já tem horário marcado</small></div>
+    <span class="seta">›</span>
+  </a>
+</div>
+
+<main>
+  <div class="regra" style="margin-top:18px">
+    <b>Regra para remarcar</b>
+    A remarcação pela internet só vale se for feita com pelo menos <span id="horasRegra">72</span> horas de antecedência.
+    Com menos tempo que isso, a remarcação é feita pessoalmente com o atendimento da clínica.
+  </div>
+
+  <h2>Sobre</h2>
+  <div class="cartao"><p id="sobre" style="margin:0"></p></div>
+
+  <div id="blocoServicos" hidden>
+    <h2>Serviços</h2>
     <div class="cartao">
-      <form id="form">
-        <input type="email" id="email" placeholder="E-mail" autocomplete="username" required>
-        <input type="password" id="senha" placeholder="Senha" autocomplete="current-password" required>
-        <button class="btn grande" id="entrar">Entrar</button>
-      </form>
-      <div class="teste">
-        <p>Contas de teste (temporário, só com pacientes fictícios):</p>
-        <div class="linha2">
-          <button class="btn sec" data-teste="assistente@teste.clinica">Assistente</button>
-          <button class="btn sec" data-teste="jimena@teste.clinica">Jimena</button>
-        </div>
-      </div>
+      <p style="margin:0 0 8px"><span class="area odo">Odontologia</span></p>
+      <ul class="lista-serv" id="servOdo"></ul>
+      <p style="margin:16px 0 8px"><span class="area est">Estética</span></p>
+      <ul class="lista-serv est" id="servEst"></ul>
     </div>
   </div>
+
+  <h2>Como marcar</h2>
+  <div class="cartao">
+    <div class="passo"><div class="num">1</div><div class="corpo"><b>Faça sua inscrição</b><br><span class="dica">Nome, telefone, nascimento e uma senha.</span></div></div>
+    <div class="passo"><div class="num">2</div><div class="corpo"><b>Escolha o dia e o horário</b><br><span class="dica">A agenda mostra só os horários livres.</span></div></div>
+    <div class="passo" style="margin-bottom:0"><div class="num">3</div><div class="corpo"><b>Pronto</b><br><span class="dica">A clínica recebe seu pedido na mesma hora.</span></div></div>
+  </div>
+
+  <h2>Atendimento</h2>
+  <div class="cartao contato">
+    <p>🕗 <b id="horario"></b></p>
+    <p id="pEndereco" hidden>📍 <span id="endereco"></span></p>
+    <p id="pWhats" hidden>💬 <a id="whats" target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+    <p id="pInsta" hidden style="margin:0">📷 <a id="insta" target="_blank" rel="noopener"></a></p>
+  </div>
+</main>
+
+<div class="rodape-site">
+  <span data-clinica></span> · <a href="entrar.html">Área da equipe</a>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="comum.js"></script>
 <script>
-async function irPara() {
-  const { data } = await sb.auth.getSession();
-  if (!data.session) return;
-  const email = data.session.user.email.toLowerCase();
-  const { data: eq } = await sb.from("clinica_equipe").select("papel").eq("email", email).maybeSingle();
-  if (!eq) { await sb.auth.signOut(); aviso("Este acesso não faz parte da equipe.", "erro"); return; }
-  const volta = new URLSearchParams(location.search).get("volta");
-  location.href = volta || (eq.papel === "dentista" ? "agenda.html" : "assistente.html");
-}
-async function entrar(email, senha) {
-  $("#entrar").disabled = true;
-  const { error } = await sb.auth.signInWithPassword({ email, password: senha });
-  $("#entrar").disabled = false;
-  if (error) { aviso("E-mail ou senha incorretos.", "erro"); return; }
-  irPara();
-}
-$("#form").addEventListener("submit", (e) => { e.preventDefault(); entrar($("#email").value.trim(), $("#senha").value); });
-$$("[data-teste]").forEach((b) => b.addEventListener("click", () => entrar(b.dataset.teste, "clinica2026")));
-irPara();
+$("#sobre").textContent = C.sobre;
+$("#horasRegra").textContent = C.antecedenciaRemarcarHoras;
+if (C.registro) { $("#registro").hidden = false; $("#registro").textContent = C.registro; }
+
+// Horário de atendimento, a partir das configurações
+const dias = [...C.diasAtendimento].sort();
+const seguidos = dias.every((d, i) => i === 0 || d === dias[i - 1] + 1);
+const textoDias = seguidos && dias.length > 2
+  ? `${NOMES_DIA_LONGO[dias[0]]} a ${NOMES_DIA_LONGO[dias[dias.length - 1]]}`
+  : dias.map((d) => NOMES_DIA_LONGO[d]).join(", ");
+$("#horario").textContent = `${textoDias[0].toUpperCase() + textoDias.slice(1)}, das ${C.abre} às ${C.fecha}`;
+
+const local2 = [C.endereco, C.cidade].filter(Boolean).join(" — ");
+if (local2) { $("#pEndereco").hidden = false; $("#endereco").textContent = local2; }
+if (C.whatsapp) { $("#pWhats").hidden = false; $("#whats").href = "https://wa.me/55" + telDigitos(C.whatsapp); }
+if (C.instagram) { $("#pInsta").hidden = false; $("#insta").href = "https://instagram.com/" + C.instagram; $("#insta").textContent = "@" + C.instagram; }
+
+carregarServicos().then((lista) => {
+  if (!lista.length) return;
+  const li = (s) => `<li>${esc(s.nome)}</li>`;
+  $("#servOdo").innerHTML = lista.filter((s) => s.area === "Odontologia").map(li).join("");
+  $("#servEst").innerHTML = lista.filter((s) => s.area === "Estética").map(li).join("");
+  $("#blocoServicos").hidden = false;
+}).catch(() => {});
 </script>
 </body>
 </html>

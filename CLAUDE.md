@@ -4,3 +4,7 @@
 - Contas de TESTE: jimena@teste.clinica e assistente@teste.clinica, senha clinica2026. Pacientes de teste têm "Teste" no nome.
 - Versão aparece no canto inferior direito; mudar em `config.js` a cada entrega.
 - Tudo que aparece na tela e mensagens de commit em português.
+- Página pública = `index.html`; equipe entra por `entrar.html`; paciente usa `cliente.html`.
+- Paciente não lê tabelas direto: tudo passa por funções `clinica_*` (security definer). Login do paciente = `<telefone>@paciente.clinica`.
+- Horário de atendimento está em dois lugares que precisam combinar: `config.js` e a função `clinica_horario_valido` no banco.
+- Dados reais da Jimena (texto, registro, endereço, WhatsApp, foto) ainda não foram informados: campos vazios em `config.js`. Não inventar.

@@ -43,6 +43,7 @@
         <input type="checkbox" id="fTrat" style="width:22px;height:22px"> Em tratamento com a Jimena
       </label>
       <button class="btn grande" id="fSalvar" style="margin-top:12px">Salvar ficha</button>
+      <div id="fSite" class="dica" style="margin-top:12px"></div>
     </div>
 
     <h2>Histórico</h2>
@@ -93,6 +94,16 @@ async function ficha() {
   $("#fObs").value = p.observacoes || "";
   $("#fTrat").checked = p.em_tratamento;
   $("#fSelos").innerHTML = p.em_tratamento ? '<span class="trat">Em tratamento</span>' : "";
+  $("#fSite").innerHTML = p.user_id
+    ? `✔ Tem inscrição no site. <button class="btn sec peq" id="novaSenha" type="button">Criar nova senha</button>`
+    : "Ainda não fez inscrição no site.";
+  const ns = $("#novaSenha");
+  if (ns) ns.onclick = async () => {
+    const senha = prompt("Nova senha para o cliente entrar no site (mínimo 6 caracteres):");
+    if (!senha) return;
+    const { error } = await sb.rpc("clinica_equipe_redefinir_senha", { p_paciente: id, p_senha: senha });
+    aviso(error ? error.message : "Senha nova criada. Informe ao cliente.", error ? "erro" : "ok");
+  };
   historico();
 }
 $("#fSalvar").onclick = async () => {

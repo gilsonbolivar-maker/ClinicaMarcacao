@@ -173,3 +173,33 @@ textarea { min-height: 70px; resize: vertical; }
 .versao { position: fixed; right: 8px; bottom: 6px; font-size: 11px; color: #b0a79e; }
 .dica { font-size: 13px; color: var(--suave); margin-top: 6px; }
 .centro { text-align: center; }
+
+/* ===== Página pública e área do cliente ===== */
+.site { font-size: 11.5px; font-weight: 700; color: #6a4bb0; background: #efe9fb; padding: 2px 7px; border-radius: 6px; white-space: nowrap; }
+.capa { background: linear-gradient(160deg, #2f6f6a 0%, #24544f 100%); color: #fff; padding: 44px 20px 54px; text-align: center; }
+.capa .circ { width: 96px; height: 96px; margin: 0 auto 14px; border-radius: 50%; background: rgba(255,255,255,.14); border: 2px solid rgba(255,255,255,.5); display: grid; place-items: center; font-size: 34px; font-weight: 800; letter-spacing: 1px; }
+.capa h1 { margin: 0; font-size: 30px; letter-spacing: .3px; }
+.capa p { margin: 6px 0 0; opacity: .88; }
+.capa .reg { font-size: 13px; opacity: .7; }
+.chamadas { max-width: 760px; margin: -30px auto 0; padding: 0 16px; display: grid; gap: 10px; }
+.chamada { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--texto); background: #fff; border-radius: var(--raio); box-shadow: 0 6px 22px rgba(40,30,20,.14); padding: 16px; }
+.chamada .ic { flex: 0 0 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; background: var(--marca-claro); }
+.chamada.rosa .ic { background: var(--rosa-claro); }
+.chamada b { display: block; font-size: 17px; }
+.chamada small { color: var(--suave); }
+.chamada .seta { margin-left: auto; color: var(--suave); font-size: 22px; }
+.regra { background: #fff7e3; border: 1.5px solid #f0d48a; border-radius: var(--raio); padding: 14px 16px; color: #5c4300; margin-bottom: 14px; }
+.regra b { display: block; margin-bottom: 4px; }
+.lista-serv { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.lista-serv li::before { content: "•"; color: var(--marca); font-weight: 800; margin-right: 6px; }
+.lista-serv.est li::before { color: var(--rosa); }
+.contato p { margin: 0 0 8px; }
+.rodape-site { text-align: center; color: var(--suave); font-size: 13px; padding: 10px 16px 30px; }
+.rodape-site a { color: var(--suave); }
+.meu { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--linha); }
+.meu:last-child { border-bottom: 0; }
+.meu .quando { flex: 1; min-width: 0; }
+.meu .quando b { display: block; }
+.meu .quando small { color: var(--suave); }
+.meu .bloq { font-size: 12.5px; color: #8a5a00; margin-top: 4px; }
+a { color: var(--marca); }

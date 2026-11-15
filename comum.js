@@ -35,21 +35,26 @@ function local(ts) {
 function minutos(hhmm) { const [h, m] = hhmm.split(":").map(Number); return h * 60 + m; }
 function hhmm(min) { return `${pad(Math.floor(min / 60))}:${pad(min % 60)}`; }
 
+// Telefone só com números (sem o 55) e o "e-mail" interno que o cliente usa para entrar
+function telDigitos(t) { let d = String(t || "").replace(/\D/g, ""); if (d.length > 11 && d.startsWith("55")) d = d.slice(2); return d; }
+function emailPaciente(t) { return telDigitos(t) + "@paciente.clinica"; }
+const NOMES_DIA_LONGO = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+
 // ---------- Login ----------
 let EU = null; // { email, nome, papel }
 
 async function exigirLogin() {
   const { data } = await sb.auth.getSession();
-  if (!data.session) { location.href = "index.html?volta=" + encodeURIComponent(location.pathname.split("/").pop() + location.search); return null; }
+  if (!data.session) { location.href = "entrar.html?volta=" + encodeURIComponent(location.pathname.split("/").pop() + location.search); return null; }
   const email = data.session.user.email.toLowerCase();
   const { data: eq } = await sb.from("clinica_equipe").select("*").eq("email", email).maybeSingle();
-  if (!eq) { await sb.auth.signOut(); alert("Este acesso não faz parte da equipe da clínica."); location.href = "index.html"; return null; }
+  if (!eq) { await sb.auth.signOut(); alert("Este acesso não faz parte da equipe da clínica."); location.href = "entrar.html"; return null; }
   EU = eq;
   const quem = $("#quem");
   if (quem) quem.textContent = eq.nome;
   return eq;
 }
-async function sair() { await sb.auth.signOut(); location.href = "index.html"; }
+async function sair(destino) { await sb.auth.signOut(); location.href = destino || "entrar.html"; }
 
 // ---------- Dados ----------
 let SERVICOS = [];

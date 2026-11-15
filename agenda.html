@@ -116,7 +116,7 @@ $("#diaInput").onchange = (e) => { if (e.target.value) { dia = e.target.value; c
       const { data: p } = await sb.from("clinica_pacientes").select("nome").eq("id", m.paciente_id).maybeSingle();
       const l = local(m.inicio);
       bip();
-      aviso(`🔔 Nova marcação: ${p?.nome || "paciente"} — ${dataBonita(l.data)} às ${l.hora}`, "novo");
+      aviso(`🔔 Nova marcação${m.origem === "site" ? " pelo site" : ""}: ${p?.nome || "paciente"} — ${dataBonita(l.data)} às ${l.hora}`, "novo");
       if (l.data === dia) destaque.add(m.id);
       carregar(); carregarProximos();
     })
@@ -124,6 +124,11 @@ $("#diaInput").onchange = (e) => { if (e.target.value) { dia = e.target.value; c
       if (ev.new.status === "cancelado" && ev.old?.status !== "cancelado") {
         const l = local(ev.new.inicio);
         aviso(`Marcação cancelada: ${dataBonita(l.data)} às ${l.hora}`, "erro");
+      }
+      if (ev.old?.inicio && ev.old.inicio !== ev.new.inicio) {
+        const l = local(ev.new.inicio);
+        bip(); aviso(`🔁 Remarcação: agora ${dataBonita(l.data)} às ${l.hora}`, "novo");
+        if (l.data === dia) destaque.add(ev.new.id);
       }
       carregar(); carregarProximos();
     })

@@ -31,6 +31,7 @@ function abrirMarcacao(m, aoMudar) {
     <div>${seloArea(s.area)} ${selo(m.status)} ${p.em_tratamento ? '<span class="trat">Em tratamento</span>' : ""}</div>
     <p style="margin:12px 0 4px"><b>${esc(s.nome)}</b></p>
     <p style="margin:0;color:var(--suave)">${dataBonita(ini.data)} · ${ini.hora} às ${fim.hora}</p>
+    ${m.origem === "site" ? `<p style="margin:6px 0 0"><span class="site">Marcado pelo cliente no site</span>${m.remarcada_em ? ' <span class="site">Remarcado pelo cliente</span>' : ""}</p>` : ""}
     ${p.telefone ? `<p style="margin:6px 0 0;color:var(--suave)">📞 ${esc(p.telefone)}</p>` : ""}
     ${m.observacao ? `<div style="background:#faf7f3;border-radius:10px;padding:10px;margin-top:10px">📝 ${esc(m.observacao)}</div>` : ""}
 
@@ -83,6 +84,6 @@ function cartaoMarcacao(m) {
       <div class="srv">${esc(s.nome)}</div>
       ${m.observacao ? `<div class="obs">📝 ${esc(m.observacao)}</div>` : ""}
     </div>
-    <div class="lado">${selo(m.status)}${seloArea(s.area)}</div>`;
+    <div class="lado">${selo(m.status)}${seloArea(s.area)}${m.origem === "site" ? '<span class="site">Pelo site</span>' : ""}</div>`;
   return el;
 }
