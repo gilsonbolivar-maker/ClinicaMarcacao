@@ -240,13 +240,14 @@ body.publico a.barra-cta:hover { background: var(--argila); }
 body.publico a:focus-visible, body.publico button:focus-visible { outline: 3px solid var(--argila); outline-offset: 2px; }
 
 body.publico .hero {
-  display: grid; grid-template-columns: minmax(200px, 260px) minmax(0, 1.05fr) minmax(300px, .95fr);
+  display: grid; grid-template-columns: minmax(240px, 360px) minmax(0, 1.05fr) minmax(280px, .9fr);
   gap: 32px; align-items: start; padding: 32px 0 8px;
 }
 body.publico .retrato { margin: 0; }
 body.publico .retrato img {
-  display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 8%;
-  border-radius: 28px; background: var(--areia);
+  display: block; width: 100%; height: auto; max-width: 100%;
+  object-fit: contain;
+  border-radius: 20px; background: transparent;
   box-shadow: 0 18px 40px rgba(92, 64, 51, .14);
   border: 6px solid #fff; outline: 1px solid var(--areia);
 }
@@ -341,7 +342,7 @@ body.publico .rodape-site {
 body.publico .rodape-site a { color: var(--argila); font-weight: 700; }
 
 @media (max-width: 1040px) {
-  body.publico .hero { grid-template-columns: 220px minmax(0, 1fr); gap: 28px; }
+  body.publico .hero { grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); gap: 28px; }
   body.publico .coluna-atendimento { grid-column: 1 / -1; padding-top: 0; }
 }
 @media (max-width: 860px) {
@@ -351,7 +352,7 @@ body.publico .rodape-site a { color: var(--argila); font-weight: 700; }
   body.publico main { padding-left: 16px; padding-right: 16px; }
   body.publico .barra-interna { padding-left: 16px; padding-right: 16px; }
   body.publico .hero { grid-template-columns: 1fr; gap: 22px; padding-top: 18px; }
-  body.publico .retrato img { aspect-ratio: 5 / 4; max-height: 380px; border-radius: 22px; border-width: 5px; object-position: center 12%; }
+  body.publico .retrato img { border-radius: 18px; border-width: 5px; }
   body.publico .grade-serv, body.publico .etapas { grid-template-columns: 1fr; }
   body.publico .secao { margin-top: 36px; }
 }
