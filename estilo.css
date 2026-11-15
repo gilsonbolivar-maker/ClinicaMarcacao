@@ -176,7 +176,7 @@ textarea { min-height: 70px; resize: vertical; }
 
 /* ===== Página pública e área do cliente ===== */
 .site { font-size: 11.5px; font-weight: 700; color: #6a4bb0; background: #efe9fb; padding: 2px 7px; border-radius: 6px; white-space: nowrap; }
-.regra { background: rgba(255,255,255,.75); border: 1px solid #E0D0BC; border-left: 4px solid #6B7B4B; border-radius: 14px; padding: 14px 16px; color: #5C4033; margin-bottom: 14px; line-height: 1.45; }
+.regra { background: #E8D8C3; border: 1px solid #d7c4ab; border-left: 4px solid #C1663F; border-radius: 14px; padding: 14px 16px; color: #5C4033; margin-bottom: 14px; line-height: 1.45; }
 .regra b { display: block; margin-bottom: 4px; }
 
 /* ===== Página pública ===== */
@@ -196,34 +196,26 @@ body.publico {
   --tinta: var(--cafe);
   --linha-quente: #E0D0BC;
   font-family: "Manrope", "Segoe UI", system-ui, sans-serif;
-  background-color: var(--creme);
-  background-image:
-    url("textura.svg"),
-    radial-gradient(ellipse 46% 38% at -4% 8%, rgba(107, 123, 75, .28), transparent 70%),
-    radial-gradient(ellipse 34% 28% at 8% 72%, rgba(74, 93, 58, .14), transparent 68%),
-    radial-gradient(ellipse 28% 22% at 96% 18%, rgba(232, 216, 195, .9), transparent 60%);
-  background-repeat: no-repeat;
-  background-size: 640px auto, auto, auto, auto;
-  background-position: -120px 20px, 0 0, 0 0, 0 0;
+  background: var(--creme);
   color: var(--cafe);
   line-height: 1.5;
   padding-bottom: 76px;
 }
 body.publico main { max-width: 1080px; padding: 8px 20px 8px; }
 body.publico h1 {
-  font-family: "Great Vibes", cursive; font-weight: 400; font-size: clamp(52px, 7vw, 84px);
-  line-height: 1.05; color: var(--taupe); margin: 0; letter-spacing: 0;
+  font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: clamp(40px, 5vw, 58px);
+  line-height: 1.05; color: var(--cafe); margin: 0; letter-spacing: -0.02em;
 }
 body.publico h1::after { content: none; }
 body.publico h2, body.publico h3 {
-  font-family: "Cormorant Garamond", Georgia, serif; font-weight: 500; letter-spacing: 0; color: var(--musgo);
+  font-family: "Fraunces", Georgia, serif; font-weight: 700; letter-spacing: -0.02em; color: var(--cafe);
 }
-body.publico h2 { font-size: clamp(32px, 4vw, 44px); text-transform: none; margin: 0 0 16px; line-height: 1.05; }
+body.publico h2 { font-size: clamp(28px, 3.2vw, 36px); text-transform: none; margin: 0 0 16px; line-height: 1.15; }
 
 body.publico .barra {
   position: sticky; top: 0; z-index: 20;
-  background: rgba(245, 239, 230, .92);
-  border-top: 0; border-bottom: 1px solid rgba(92, 106, 72, .18);
+  background: #F5EFE6;
+  border-top: 4px solid var(--terracota); border-bottom: 1px solid #d7c4ab;
   backdrop-filter: blur(12px);
 }
 body.publico .barra-interna {
@@ -233,8 +225,8 @@ body.publico .barra-interna {
 body.publico .marca-site { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; min-width: 0; }
 body.publico .marca-txt { min-width: 0; }
 body.publico .marca-txt b {
-  display: block; font-family: "Great Vibes", cursive; font-weight: 400; font-size: 30px;
-  line-height: 1; white-space: nowrap; color: var(--taupe);
+  display: block; font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 20px;
+  line-height: 1.1; white-space: nowrap; color: var(--cafe);
 }
 body.publico .marca-txt small {
   display: block; color: var(--musgo); font-size: 10.5px; letter-spacing: .16em;
@@ -242,8 +234,8 @@ body.publico .marca-txt small {
 }
 body.publico .circ {
   flex: 0 0 auto; width: 40px; height: 40px; border-radius: 50%;
-  display: grid; place-items: center; background: var(--musgo); color: #fff;
-  font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-size: 16px; letter-spacing: .04em;
+  display: grid; place-items: center; background: var(--cafe); color: #fff;
+  font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 15px; letter-spacing: .02em;
 }
 body.publico .nav-site { display: flex; align-items: center; gap: 6px; }
 body.publico .nav-site a:not(.btn) {
@@ -263,26 +255,26 @@ body.publico .hero {
   gap: 40px; align-items: start; padding: 28px 0 8px;
 }
 body.publico .vitrine {
-  background: linear-gradient(165deg, #6d7d52 0%, #5c6a48 55%, #546244 100%);
-  border-radius: 36px; padding: 34px 26px 20px; color: #F7F4EE;
-  box-shadow: 0 18px 40px rgba(74, 93, 58, .16);
+  background: var(--cafe);
+  border-radius: 28px; padding: 28px 22px 18px; color: var(--creme);
+  box-shadow: 0 16px 36px rgba(92, 64, 51, .22);
 }
-body.publico .vitrine h2 { color: #F7F4EE; margin: 4px 4px 12px; font-size: 36px; }
+body.publico .vitrine h2 { color: var(--creme); margin: 4px 4px 12px; font-size: 32px; font-weight: 700; }
 body.publico .retrato { position: relative; margin: 10px 12px 18px 6px; }
 body.publico .moldura {
   position: absolute; z-index: 0; pointer-events: none;
   top: -18px; right: -16px; bottom: 22px; left: 20px;
-  border: 1.5px solid rgba(247, 244, 238, .85); border-radius: 28px;
+  border: 2px solid var(--terracota); border-radius: 26px;
 }
 body.publico .retrato img {
   position: relative; z-index: 1; display: block; width: 100%; height: auto; max-width: 100%;
-  object-fit: contain; border-radius: 22px; background: #efeae3;
+  object-fit: contain; border-radius: 0; background: #efeae3;
   box-shadow: 0 14px 30px rgba(40, 48, 30, .18);
 }
 body.publico .pilula {
-  display: inline-block; margin: 0 0 8px 4px; background: #3C332C; color: #fff;
-  font-size: 13px; font-weight: 700; letter-spacing: .02em;
-  padding: 6px 14px; border-radius: 999px;
+  display: inline-block; margin: 0 0 8px 4px; background: var(--creme); color: var(--cafe);
+  font-size: 14px; font-weight: 800; letter-spacing: .01em;
+  padding: 7px 14px; border-radius: 999px;
 }
 body.publico .eyebrow {
   margin: 8px 0 0; color: var(--musgo); font-weight: 700; font-size: 12.5px;
@@ -308,7 +300,7 @@ body.publico .acao-tit::after {
 body.publico .acao-sub { font-size: 14.5px; line-height: 1.35; color: var(--cafe); padding: 0 4px; }
 body.publico .acao:hover .acao-tit { background: var(--argila); }
 body.publico .acao.secundaria .acao-tit {
-  background: #fff; color: var(--cafe); border: 1.5px solid var(--linha-quente); box-shadow: none;
+  background: #fff; color: var(--cafe); border: 2px solid var(--cafe); box-shadow: none;
 }
 body.publico .acao.secundaria:hover .acao-tit { background: var(--creme); border-color: var(--terracota); }
 body.publico .hero-texto .regra { margin: 16px 0 0; }
@@ -339,7 +331,7 @@ body.publico .area-card.est::before { background: var(--terracota); }
 body.publico .area-card.odo::before { background: var(--musgo); }
 body.publico .area-nome { margin: 0; }
 body.publico .area {
-  font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; font-weight: 500; letter-spacing: 0;
+  font-family: "Fraunces", Georgia, serif; font-size: 26px; font-weight: 700; letter-spacing: -0.02em;
   padding: 0; border-radius: 0; background: none;
 }
 body.publico .area.est { color: var(--argila); }
@@ -351,8 +343,8 @@ body.publico .lista-serv li {
 }
 body.publico .lista-serv li::before {
   content: "›"; flex: 0 0 26px; width: 26px; height: 26px; border-radius: 50%;
-  display: grid; place-items: center; background: #3F4A34; color: #fff;
-  font-size: 16px; line-height: 1; font-weight: 600;
+  display: grid; place-items: center; background: var(--cafe); color: #fff;
+  font-size: 16px; line-height: 1; font-weight: 700;
 }
 body.publico .lista-serv.est li { background: transparent; border: 0; }
 body.publico .area-card:has(ul:empty) { display: none; }
@@ -365,11 +357,11 @@ body.publico .etapa {
 }
 body.publico .etapa-n {
   grid-column: 1; grid-row: 1 / span 2; width: 28px; height: 28px; margin-top: 2px; border-radius: 50%;
-  display: grid; place-items: center; background: #3F4A34; color: #fff;
+  display: grid; place-items: center; background: var(--musgo); color: #fff;
 }
 body.publico .etapa h3, body.publico .etapa p { grid-column: 2; }
 body.publico .etapa-n::before { content: "›"; font-size: 18px; line-height: 1; font-weight: 600; }
-body.publico .etapa h3 { margin: 0 0 4px; font-size: 24px; color: var(--musgo); }
+body.publico .etapa h3 { margin: 0 0 4px; font-size: 22px; font-weight: 700; color: var(--cafe); }
 body.publico .etapa p { margin: 0; color: var(--cafe); font-size: 14.5px; line-height: 1.45; }
 
 body.publico .rodape-site {
@@ -414,29 +406,23 @@ body.paciente {
   --cafe: #5C4033;
   --taupe: #6E6256;
   font-family: "Manrope", "Segoe UI", system-ui, sans-serif;
-  background-color: var(--fundo);
-  background-image:
-    url("textura.svg"),
-    radial-gradient(ellipse 70% 32% at 50% -10%, rgba(107, 123, 75, .22), transparent 70%);
-  background-repeat: no-repeat;
-  background-size: 520px auto, auto;
-  background-position: -80px -40px, 0 0;
+  background: var(--fundo);
   color: var(--cafe);
   padding-bottom: 76px;
 }
-body.paciente .topo { padding: 12px 16px; background: #4A5D3A; }
+body.paciente .topo { padding: 12px 16px; background: #5C4033; }
 body.paciente .topo a, body.paciente .topo button.link { color: #fff; }
 body.paciente a { color: var(--argila); }
 body.paciente .topo .marca { display: flex; align-items: center; gap: 10px; }
 body.paciente .mono {
   width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
   background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.45);
-  font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-size: 15px;
+  font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 14px;
 }
-body.paciente .marca-txt b { font-family: "Great Vibes", cursive; font-weight: 400; font-size: 28px; line-height: 1; }
+body.paciente .marca-txt b { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 18px; line-height: 1.1; }
 body.paciente main { max-width: 560px; padding-top: 22px; }
 body.paciente h2, body.paciente h3 {
-  font-family: "Cormorant Garamond", Georgia, serif; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--texto);
+  font-family: "Fraunces", Georgia, serif; font-weight: 700; letter-spacing: -0.02em; text-transform: none; color: var(--cafe);
 }
 body.paciente h2 { font-size: 28px; margin: 8px 0 12px; }
 body.paciente .cartao {
@@ -445,7 +431,7 @@ body.paciente .cartao {
 }
 body.paciente #vEntrar .cartao, body.paciente #vEscolher .cartao { border-top: 3px solid var(--terracota); }
 body.paciente .cartao > p > b, body.paciente #ola {
-  font-family: "Cormorant Garamond", Georgia, serif; font-weight: 500; font-size: 32px; letter-spacing: 0; line-height: 1.1; color: #6E6256;
+  font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 30px; letter-spacing: -0.02em; line-height: 1.15; color: var(--cafe);
 }
 body.paciente .abas { background: #E8D8C3; border-radius: 14px; padding: 5px; }
 body.paciente .abas button { border-radius: 10px; min-height: 44px; }
