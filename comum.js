@@ -77,6 +77,28 @@ async function marcacoesDoDia(iso) {
   return data;
 }
 
+// Bloqueios (folgas, compromissos da Jimena) que tocam um dia, recortados ao dia
+async function bloqueiosDoDia(iso) {
+  const a = instante(iso, "00:00"), b = instante(somaDias(iso, 1), "00:00");
+  const { data, error } = await sb.from("clinica_bloqueios").select("*").lt("inicio", b).gt("fim", a).order("inicio");
+  if (error) return [];
+  const ia = new Date(a).getTime(), ib = new Date(b).getTime();
+  return data.map((x) => {
+    const i = Math.max(new Date(x.inicio).getTime(), ia), f = Math.min(new Date(x.fim).getTime(), ib);
+    const ini = minutos(local(new Date(i).toISOString()).hora);
+    const fim = f >= ib ? 24 * 60 : minutos(local(new Date(f).toISOString()).hora);
+    return { ...x, ini, fim, diaTodo: ini <= minutos(C.abre) && fim >= minutos(C.fecha) };
+  });
+}
+function cartaoBloqueio(x) {
+  const el = document.createElement("a");
+  el.className = "marc bloqueio"; el.href = "bloqueios.html";
+  el.innerHTML = `
+    <div class="hora">${x.diaTodo ? "Dia" : hhmm(Math.max(x.ini, minutos(C.abre)))}<small>${x.diaTodo ? "inteiro" : "até " + hhmm(Math.min(x.fim, minutos(C.fecha)))}</small></div>
+    <div class="info"><b>🚫 Bloqueado</b><div class="srv">${esc(x.motivo || "Sem atendimento neste horário")}</div></div>`;
+  return el;
+}
+
 // ---------- Aparência ----------
 const STATUS = {
   marcado: { rotulo: "Marcado", cor: "azul" },

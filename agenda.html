@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2f6f6a">
 <title>Agenda — Jimena Andrade</title>
-<link rel="stylesheet" href="estilo.css?v=1.2.2">
+<link rel="stylesheet" href="estilo.css?v=1.3.0">
 </head>
 <body>
 <header class="topo">
   <div class="marca"><b data-clinica></b><small>Minha agenda</small></div>
   <div class="acoes">
+    <a href="bloqueios.html">Bloqueios</a>
     <a href="paciente.html">Pacientes</a>
     <button class="link" onclick="sair()">Sair</button>
   </div>
@@ -42,9 +43,9 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=1.2.2"></script>
-<script src="comum.js?v=1.2.2"></script>
-<script src="janela.js?v=1.2.2"></script>
+<script src="config.js?v=1.3.0"></script>
+<script src="comum.js?v=1.3.0"></script>
+<script src="janela.js?v=1.3.0"></script>
 <script>
 let dia = hojeISO();
 let destaque = new Set();
@@ -52,25 +53,32 @@ let destaque = new Set();
 async function carregar() {
   $("#rotulo").textContent = dataBonita(dia);
   $("#diaInput").value = dia;
-  const lista = await marcacoesDoDia(dia);
+  const [lista, bloqs] = await Promise.all([marcacoesDoDia(dia), bloqueiosDoDia(dia)]);
   const ativas = lista.filter((m) => m.status !== "cancelado");
   $("#rTotal").textContent = ativas.length;
   $("#rConf").textContent = ativas.filter((m) => m.status === "confirmado").length;
   $("#rAtend").textContent = ativas.filter((m) => m.status === "atendido").length;
 
   const box = $("#lista"); box.innerHTML = "";
-  if (!C.diasAtendimento.includes(diaSemana(dia)) && !lista.length) { box.innerHTML = `<div class="cartao vazio">Sem atendimento neste dia.</div>`; return; }
+  if (!C.diasAtendimento.includes(diaSemana(dia)) && !lista.length && !bloqs.length) { box.innerHTML = `<div class="cartao vazio">Sem atendimento neste dia.</div>`; return; }
 
   // Linha do tempo: marcações + intervalos livres
   let cursor = minutos(C.abre);
   const fimDia = minutos(C.fecha);
   const livre = (a, b) => { if (b - a >= C.intervaloMin) box.insertAdjacentHTML("beforeend", `<div class="livre"><span>${hhmm(a)}</span>livre até ${hhmm(b)}</div>`); };
-  ativas.forEach((m) => {
-    const a = minutos(local(m.inicio).hora), b = minutos(local(m.fim).hora);
-    if (a > cursor) livre(cursor, a);
-    const el = cartaoMarcacao(m);
-    if (destaque.has(m.id)) el.classList.add("novo");
-    el.onclick = () => abrirMarcacao(m, carregar);
+  const itens = [
+    ...ativas.map((m) => ({ a: minutos(local(m.inicio).hora), b: minutos(local(m.fim).hora), m })),
+    ...bloqs.map((x) => ({ a: Math.max(x.ini, 0), b: x.fim, x }))
+  ].sort((p, q) => p.a - q.a);
+  itens.forEach(({ a, b, m, x }) => {
+    if (a > cursor) livre(cursor, Math.min(a, fimDia));
+    let el;
+    if (x) el = cartaoBloqueio(x);
+    else {
+      el = cartaoMarcacao(m);
+      if (destaque.has(m.id)) el.classList.add("novo");
+      el.onclick = () => abrirMarcacao(m, carregar);
+    }
     box.appendChild(el);
     cursor = Math.max(cursor, b);
   });
@@ -132,6 +140,7 @@ $("#diaInput").onchange = (e) => { if (e.target.value) { dia = e.target.value; c
       }
       carregar(); carregarProximos();
     })
+    .on("postgres_changes", { event: "*", schema: "public", table: "clinica_bloqueios" }, () => carregar())
     .subscribe((s) => $("#aoVivo").classList.toggle("ligado", s === "SUBSCRIBED"));
 
   // Se a tela ficou parada (celular bloqueado), atualiza ao voltar

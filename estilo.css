@@ -443,3 +443,12 @@ body.paciente .meu { padding: 14px 0; }
 .meu .quando small { color: var(--suave); }
 .meu .bloq { font-size: 12.5px; color: #A0522D; margin-top: 4px; }
 a { color: var(--marca); }
+
+/* Bloqueios da agenda */
+.marc.bloqueio { border-left-color: #8a8580; background: repeating-linear-gradient(135deg, #f4f1ed 0 10px, #ece7e1 10px 20px); text-decoration: none; color: inherit; }
+.bloq-item { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--linha); }
+.bloq-item:last-child { border-bottom: 0; }
+.bloq-item .q { flex: 1; min-width: 0; }
+.bloq-item .q small { display: block; color: var(--suave); }
+.chk { display: flex; align-items: center; gap: 10px; font-weight: 600; margin-top: 12px; }
+.chk input { width: 22px; height: 22px; }

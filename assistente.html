@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2f6f6a">
 <title>Marcações — Jimena Andrade</title>
-<link rel="stylesheet" href="estilo.css?v=1.2.2">
+<link rel="stylesheet" href="estilo.css?v=1.3.0">
 </head>
 <body>
 <header class="topo">
   <div class="marca"><b data-clinica></b><small>Página da assistente</small></div>
   <div class="acoes">
+    <a href="bloqueios.html">Bloqueios</a>
     <a href="paciente.html">Pacientes</a>
     <button class="link" onclick="sair()">Sair</button>
   </div>
@@ -79,9 +80,9 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=1.2.2"></script>
-<script src="comum.js?v=1.2.2"></script>
-<script src="janela.js?v=1.2.2"></script>
+<script src="config.js?v=1.3.0"></script>
+<script src="comum.js?v=1.3.0"></script>
+<script src="janela.js?v=1.3.0"></script>
 <script>
 const estado = { paciente: null, novoNome: null, servicoId: null, dia: proximoDiaUtil(hojeISO()), hora: null, ocupados: [] };
 let agDia = hojeISO();
@@ -162,8 +163,10 @@ async function mudarDia(iso, manterHora = false) {
   $("#diaRotulo").textContent = dataBonita(iso);
   $("#diaInput").value = iso;
   if (!manterHora) $("#horarios").innerHTML = `<div class="vazio">Carregando…</div>`;
-  const lista = await marcacoesDoDia(iso);
-  estado.ocupados = lista.filter((m) => m.status !== "cancelado").map((m) => [minutos(local(m.inicio).hora), minutos(local(m.fim).hora)]);
+  const [lista, bloqs] = await Promise.all([marcacoesDoDia(iso), bloqueiosDoDia(iso)]);
+  estado.ocupados = lista.filter((m) => m.status !== "cancelado").map((m) => [minutos(local(m.inicio).hora), minutos(local(m.fim).hora)])
+    .concat(bloqs.map((x) => [x.ini, x.fim]));
+  estado.bloqueado = bloqs.find((x) => x.diaTodo) || null;
   if (estado.hora && estado.servicoId) {
     const t = minutos(estado.hora), d = servico(estado.servicoId).duracao_min;
     if (estado.ocupados.some(([a, b]) => t < b && t + d > a)) { estado.hora = null; aviso("O horário escolhido acabou de ser ocupado. Escolha outro.", "erro"); }
@@ -177,6 +180,7 @@ $("#diaInput").onchange = (e) => e.target.value && mudarDia(e.target.value);
 function desenharHorarios() {
   const box = $("#horarios"); box.innerHTML = "";
   if (!C.diasAtendimento.includes(diaSemana(estado.dia))) { box.innerHTML = `<div class="vazio">Não há atendimento neste dia.</div>`; validar(); return; }
+  if (estado.bloqueado) { box.innerHTML = `<div class="vazio">🚫 Dia bloqueado na agenda da Jimena${estado.bloqueado.motivo ? " — " + esc(estado.bloqueado.motivo) : ""}.</div>`; validar(); return; }
   if (!estado.servicoId) { box.innerHTML = `<div class="vazio">Escolha o serviço para ver os horários livres.</div>`; validar(); return; }
   const dur = servico(estado.servicoId).duracao_min;
   const agoraMin = estado.dia === hojeISO() ? minutos(local(new Date().toISOString()).hora) : -1;
@@ -226,7 +230,7 @@ $("#marcar").onclick = async () => {
     aviso(`✓ Marcado: ${estado.paciente.nome}, ${dataBonita(estado.dia)} às ${estado.hora}`);
     limpar();
   } catch (e) {
-    aviso(e.code === "23P01" ? "Esse horário acabou de ser ocupado. Escolha outro." : "Não consegui marcar: " + (e.message || e), "erro");
+    aviso(e.code === "23P01" ? "Esse horário acabou de ser ocupado. Escolha outro." : (/bloqueado/.test(e.message || "") ? e.message : "Não consegui marcar: " + (e.message || e)), "erro");
     mudarDia(estado.dia);
   } finally { btn.textContent = "Marcar horário"; validar(); }
 };
@@ -241,9 +245,10 @@ function limpar() {
 // ---------- Agenda ----------
 async function carregarAgenda() {
   $("#agRotulo").textContent = dataBonita(agDia);
-  const lista = await marcacoesDoDia(agDia);
+  const [lista, bloqs] = await Promise.all([marcacoesDoDia(agDia), bloqueiosDoDia(agDia)]);
   const box = $("#agLista"); box.innerHTML = "";
-  if (!lista.length) box.innerHTML = `<div class="cartao vazio">Nenhuma marcação neste dia.</div>`;
+  bloqs.forEach((x) => box.appendChild(cartaoBloqueio(x)));
+  if (!lista.length && !bloqs.length) box.innerHTML = `<div class="cartao vazio">Nenhuma marcação neste dia.</div>`;
   lista.forEach((m) => { const el = cartaoMarcacao(m); el.onclick = () => abrirMarcacao(m, () => { carregarAgenda(); mudarDia(estado.dia); }); box.appendChild(el); });
 }
 $("#agAnt").onclick = () => { agDia = somaDias(agDia, -1); carregarAgenda(); };
@@ -257,6 +262,10 @@ $("#agProx").onclick = () => { agDia = somaDias(agDia, 1); carregarAgenda(); };
   mudarDia(estado.dia);
   sb.channel("assistente")
     .on("postgres_changes", { event: "*", schema: "public", table: "clinica_marcacoes" }, () => {
+      mudarDia(estado.dia, true);
+      if (!$("#aba-agenda").hidden) carregarAgenda();
+    })
+    .on("postgres_changes", { event: "*", schema: "public", table: "clinica_bloqueios" }, () => {
       mudarDia(estado.dia, true);
       if (!$("#aba-agenda").hidden) carregarAgenda();
     })
