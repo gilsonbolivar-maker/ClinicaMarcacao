@@ -8,3 +8,4 @@
 - Paciente não lê tabelas direto: tudo passa por funções `clinica_*` (security definer). Login do paciente = `<telefone>@paciente.clinica`.
 - Horário de atendimento está em dois lugares que precisam combinar: `config.js` e a função `clinica_horario_valido` no banco.
 - Dados reais da Jimena (texto, registro, endereço, WhatsApp, foto) ainda não foram informados: campos vazios em `config.js`. Não inventar.
+- Ao mudar a versão em `config.js`, trocar também o `?v=` dos arquivos nos `.html` (evita o navegador mostrar arquivo antigo).
