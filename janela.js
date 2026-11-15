@@ -56,7 +56,7 @@ function abrirMarcacao(m, aoMudar) {
   $$("[data-st]", box).forEach((b) => (b.onclick = async () => {
     if (b.dataset.st === "cancelado" && !confirm("Cancelar esta marcação?")) return;
     const { error } = await sb.from("clinica_marcacoes").update({ status: b.dataset.st }).eq("id", m.id);
-    if (error) { aviso(error.code === "23P01" ? "Esse horário já foi ocupado por outra marcação." : /bloqueado/.test(error.message) ? error.message : "Não consegui salvar: " + error.message, "erro"); return; }
+    if (error) { aviso(error.code === "23P01" ? "Esse horário já foi ocupado por outra marcação." : /ausente/.test(error.message) ? error.message : "Não consegui salvar: " + error.message, "erro"); return; }
     aviso("Marcação: " + STATUS[b.dataset.st].rotulo);
     fecharJanela(); aoMudar && aoMudar();
   }));

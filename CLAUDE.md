@@ -10,4 +10,4 @@
 - Dados da Jimena em `config.js` vieram do perfil dela no Instagram (@jimennandrade), enviado pelo Gilson. Ainda faltam: foto e número de registro profissional. Não inventar.
 - Ao mudar a versão em `config.js`, trocar também o `?v=` dos arquivos nos `.html` (evita o navegador mostrar arquivo antigo).
 - Avisos no WhatsApp da Jimena: gatilhos no banco (`clinica_aviso_marcacao`, `clinica_aviso_inscricao`) chamam `clinica_enviar_aviso`, que usa CallMeBot via pg_net. Chave em `clinica_avisos_config` (fechada para as páginas; `ativo` + `apikey`). Cada aviso fica em `clinica_avisos_log`. O que a própria Jimena faz não gera aviso.
-- Bloqueios (folgas da Jimena): tabela `clinica_bloqueios`, página `bloqueios.html`. Gatilho `clinica_checa_bloqueio` impede marcar/remarcar em horário bloqueado; `clinica_ocupados` inclui os bloqueios para o site do paciente.
+- Bloqueios (folgas da Jimena): tabela `clinica_bloqueios`, página `ausencias.html` (na tela chama-se "Ausência", nunca "bloqueio"). Gatilho `clinica_checa_bloqueio` impede marcar/remarcar durante ausência; `clinica_ocupados` inclui os bloqueios para o site do paciente.

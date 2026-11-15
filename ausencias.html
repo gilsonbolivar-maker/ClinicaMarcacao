@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2f6f6a">
-<title>Bloqueios — Jimena Andrade</title>
-<link rel="stylesheet" href="estilo.css?v=1.3.0">
+<title>Ausências — Jimena Andrade</title>
+<link rel="stylesheet" href="estilo.css?v=1.3.1">
 </head>
 <body>
 <header class="topo">
-  <div class="marca"><b data-clinica></b><small>Bloqueios da agenda</small></div>
+  <div class="marca"><b data-clinica></b><small>Ausências da Jimena</small></div>
   <div class="acoes">
     <a id="voltar" href="agenda.html">‹ Agenda</a>
   </div>
@@ -17,8 +17,8 @@
 
 <main>
   <div class="cartao">
-    <p style="margin:0 0 14px"><b>Bloquear dias ou horários</b><br>
-      <span class="dica">Folga, viagem, compromisso pessoal. Nesse período ninguém consegue marcar: nem a assistente, nem o paciente pelo site.</span></p>
+    <p style="margin:0 0 14px"><b>Registrar ausência</b><br>
+      <span class="dica">Folga, viagem, compromisso pessoal. Durante a ausência ninguém consegue marcar: nem a assistente, nem o paciente pelo site.</span></p>
 
     <div class="passo"><div class="num">1</div><div class="corpo">
       <label class="tit">Quais dias</label>
@@ -42,17 +42,17 @@
       <input type="text" id="motivo" placeholder="Ex.: viagem, consulta médica, congresso">
     </div></div>
 
-    <button class="btn grande" id="bloquear">Bloquear</button>
+    <button class="btn grande" id="bloquear">Registrar ausência</button>
     <div class="dica centro" id="resumo" style="margin-top:8px"></div>
   </div>
 
-  <h2>Próximos bloqueios</h2>
+  <h2>Próximas ausências</h2>
   <div class="cartao" id="lista"><div class="vazio">Carregando…</div></div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=1.3.0"></script>
-<script src="comum.js?v=1.3.0"></script>
+<script src="config.js?v=1.3.1"></script>
+<script src="comum.js?v=1.3.1"></script>
 <script>
 const amanha = somaDias(hojeISO(), 1);
 $("#de").value = amanha; $("#ate").value = amanha;
@@ -71,7 +71,7 @@ function periodos() {
   if (!todo && (!hDe || !hAte || hAte <= hDe)) return { erro: "O horário final precisa ser depois do inicial." };
   const lista = [];
   for (let d = de; d <= ate; d = somaDias(d, 1)) {
-    if (lista.length > 92) return { erro: "Bloqueie no máximo 3 meses de uma vez." };
+    if (lista.length > 92) return { erro: "Registre no máximo 3 meses de uma vez." };
     lista.push(todo
       ? { inicio: instante(d, "00:00"), fim: instante(somaDias(d, 1), "00:00") }
       : { inicio: instante(d, hDe), fim: instante(d, hAte) });
@@ -83,7 +83,7 @@ function resumo() {
   if (p.erro) { $("#resumo").textContent = p.erro; $("#bloquear").disabled = true; return; }
   $("#bloquear").disabled = false;
   const dias = p.de === p.ate ? dataBonita(p.de) : `de ${dataBonita(p.de)} até ${dataBonita(p.ate)}`;
-  $("#resumo").textContent = `Vai bloquear: ${dias}, ${p.todo ? "dia inteiro" : "das " + p.hDe + " às " + p.hAte}.`;
+  $("#resumo").textContent = `Ausência: ${dias}, ${p.todo ? "dia inteiro" : "das " + p.hDe + " às " + p.hAte}.`;
 }
 
 $("#bloquear").onclick = async () => {
@@ -99,25 +99,25 @@ $("#bloquear").onclick = async () => {
       p.lista.some((x) => new Date(m.inicio) < new Date(x.fim) && new Date(m.fim) > new Date(x.inicio)));
     if (conflito.length) {
       const nomes = conflito.slice(0, 6).map((m) => { const l = local(m.inicio); return `• ${dataCurta(l.data)} ${l.hora} — ${m.paciente?.nome || "paciente"}`; }).join("\n");
-      const ok = confirm(`Atenção: ${conflito.length} paciente(s) já marcado(s) nesse período:\n\n${nomes}${conflito.length > 6 ? "\n…" : ""}\n\nO bloqueio NÃO cancela essas marcações. Será preciso avisar e remarcar esses pacientes.\n\nBloquear mesmo assim?`);
+      const ok = confirm(`Atenção: ${conflito.length} paciente(s) já marcado(s) nesse período:\n\n${nomes}${conflito.length > 6 ? "\n…" : ""}\n\nA ausência NÃO cancela essas marcações. Será preciso avisar e remarcar esses pacientes.\n\nRegistrar a ausência mesmo assim?`);
       if (!ok) return;
     }
     const motivo = $("#motivo").value.trim() || null;
     const { error } = await sb.from("clinica_bloqueios").insert(p.lista.map((x) => ({ ...x, motivo })));
     if (error) throw error;
-    aviso("🚫 Bloqueio salvo. Esses horários sumiram da agenda.");
+    aviso("🌙 Ausência registrada. Esses horários saíram da agenda.");
     $("#motivo").value = "";
     carregarLista();
   } catch (e) {
-    aviso("Não consegui bloquear: " + (e.message || e), "erro");
+    aviso("Não consegui registrar a ausência: " + (e.message || e), "erro");
   } finally { btn.disabled = false; }
 };
 
 async function carregarLista() {
   const { data, error } = await sb.from("clinica_bloqueios").select("*").gt("fim", new Date().toISOString()).order("inicio").limit(200);
   const box = $("#lista");
-  if (error) { box.innerHTML = `<div class="vazio">Não consegui carregar os bloqueios.</div>`; return; }
-  if (!data.length) { box.innerHTML = `<div class="vazio">Nenhum bloqueio marcado. A agenda está aberta.</div>`; return; }
+  if (error) { box.innerHTML = `<div class="vazio">Não consegui carregar as ausências.</div>`; return; }
+  if (!data.length) { box.innerHTML = `<div class="vazio">Nenhuma ausência registrada. A agenda está aberta.</div>`; return; }
   box.innerHTML = "";
   data.forEach((x) => {
     const i = local(x.inicio), f = local(x.fim);
@@ -126,11 +126,11 @@ async function carregarLista() {
     el.innerHTML = `
       <div class="q"><b>${dataBonita(i.data)}</b>
         <small>${todo ? "Dia inteiro" : `Das ${i.hora} às ${f.hora}`}${x.motivo ? " · " + esc(x.motivo) : ""}</small></div>
-      <button class="btn perigo peq" type="button">Desbloquear</button>`;
+      <button class="btn perigo peq" type="button">Retirar ausência</button>`;
     $("button", el).onclick = async () => {
-      if (!confirm(`Desbloquear ${dataBonita(i.data)}? Os horários voltam a ficar livres para marcação.`)) return;
+      if (!confirm(`Retirar a ausência de ${dataBonita(i.data)}? Os horários voltam a ficar livres para marcação.`)) return;
       const { error } = await sb.from("clinica_bloqueios").delete().eq("id", x.id);
-      if (error) { aviso("Não consegui desbloquear.", "erro"); return; }
+      if (error) { aviso("Não consegui retirar a ausência.", "erro"); return; }
       aviso("Horário liberado de novo."); carregarLista();
     };
     box.appendChild(el);

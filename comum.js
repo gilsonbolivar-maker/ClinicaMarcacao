@@ -92,10 +92,10 @@ async function bloqueiosDoDia(iso) {
 }
 function cartaoBloqueio(x) {
   const el = document.createElement("a");
-  el.className = "marc bloqueio"; el.href = "bloqueios.html";
+  el.className = "marc bloqueio"; el.href = "ausencias.html";
   el.innerHTML = `
     <div class="hora">${x.diaTodo ? "Dia" : hhmm(Math.max(x.ini, minutos(C.abre)))}<small>${x.diaTodo ? "inteiro" : "até " + hhmm(Math.min(x.fim, minutos(C.fecha)))}</small></div>
-    <div class="info"><b>🚫 Bloqueado</b><div class="srv">${esc(x.motivo || "Sem atendimento neste horário")}</div></div>`;
+    <div class="info"><b>🌙 Ausência</b><div class="srv">${esc(x.motivo || "Jimena ausente neste horário")}</div></div>`;
   return el;
 }
 
