@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2f6f6a">
 <title>Marcações — Jimena Andrade</title>
-<link rel="stylesheet" href="estilo.css?v=1.3.2">
+<link rel="stylesheet" href="estilo.css?v=1.4.0">
 </head>
 <body>
 <header class="topo">
@@ -73,6 +73,8 @@
         <div class="rotulo" id="agRotulo"></div>
         <button id="agProx">›</button>
       </div>
+      <button class="btn grande" id="enviarAgenda" style="margin-top:12px">📤 Agenda do dia</button>
+      <div class="dica centro">Abre o WhatsApp com a agenda pronta para a Jimena. É só tocar em enviar.</div>
       <div class="centro" style="margin-top:6px"><span class="ao-vivo" id="aoVivo">ao vivo</span></div>
     </div>
     <div id="agLista"></div>
@@ -80,9 +82,9 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=1.3.2"></script>
-<script src="comum.js?v=1.3.2"></script>
-<script src="janela.js?v=1.3.2"></script>
+<script src="config.js?v=1.4.0"></script>
+<script src="comum.js?v=1.4.0"></script>
+<script src="janela.js?v=1.4.0"></script>
 <script>
 const estado = { paciente: null, novoNome: null, servicoId: null, dia: proximoDiaUtil(hojeISO()), hora: null, ocupados: [] };
 let agDia = hojeISO();
@@ -243,14 +245,60 @@ function limpar() {
 }
 
 // ---------- Agenda ----------
+let agDados = { lista: [], bloqs: [] };
 async function carregarAgenda() {
   $("#agRotulo").textContent = dataBonita(agDia);
+  $("#enviarAgenda").textContent = "📤 Agenda do dia — " + dataCurta(agDia);
   const [lista, bloqs] = await Promise.all([marcacoesDoDia(agDia), bloqueiosDoDia(agDia)]);
   const box = $("#agLista"); box.innerHTML = "";
+  agDados = { lista, bloqs, dia: agDia };
   bloqs.forEach((x) => box.appendChild(cartaoBloqueio(x)));
   if (!lista.length && !bloqs.length) box.innerHTML = `<div class="cartao vazio">Nenhuma marcação neste dia.</div>`;
   lista.forEach((m) => { const el = cartaoMarcacao(m); el.onclick = () => abrirMarcacao(m, () => { carregarAgenda(); mudarDia(estado.dia); }); box.appendChild(el); });
 }
+// ---------- Agenda do dia para o WhatsApp da Jimena ----------
+function textoAgenda({ lista, bloqs, dia }) {
+  const [a, m, d] = dia.split("-");
+  const ativas = lista.filter((x) => x.status !== "cancelado");
+  const canc = lista.filter((x) => x.status === "cancelado");
+  const L = [];
+  L.push(`📅 *Agenda de ${NOMES_DIA_LONGO[diaSemana(dia)]}, ${d}/${m}/${a}*`);
+  L.push(ativas.length ? `${ativas.length} atendimento${ativas.length > 1 ? "s" : ""}` : "Nenhum atendimento marcado.");
+  const itens = [
+    ...ativas.map((x) => ({ t: minutos(local(x.inicio).hora), x })),
+    ...bloqs.map((b) => ({ t: b.ini, b }))
+  ].sort((p, q) => p.t - q.t);
+  itens.forEach(({ x, b }) => {
+    L.push("");
+    if (b) {
+      L.push(`🌙 *Ausência* ${b.diaTodo ? "— dia inteiro" : hhmm(Math.max(b.ini, minutos(C.abre))) + "–" + hhmm(Math.min(b.fim, minutos(C.fecha)))}${b.motivo ? " (" + b.motivo + ")" : ""}`);
+      return;
+    }
+    const s = servico(x.servico_id), ini = local(x.inicio).hora, fim = local(x.fim).hora;
+    L.push(`*${ini}–${fim}* · ${x.paciente?.nome || "Paciente"}${x.paciente?.em_tratamento ? " (em tratamento)" : ""}`);
+    L.push(`${s.nome} · ${STATUS[x.status]?.rotulo || x.status}${x.origem === "site" ? " · pelo site" : ""}`);
+    if (x.paciente?.telefone) L.push(`📞 ${x.paciente.telefone}`);
+    if (x.observacao) L.push(`📝 ${x.observacao}`);
+  });
+  // horários livres no expediente
+  if (C.diasAtendimento.includes(diaSemana(dia)) && !bloqs.some((b) => b.diaTodo)) {
+    const ocup = itens.map(({ x, b }) => b ? [b.ini, b.fim] : [minutos(local(x.inicio).hora), minutos(local(x.fim).hora)]).sort((p, q) => p[0] - q[0]);
+    const livres = []; let cur = minutos(C.abre);
+    ocup.forEach(([i, f]) => { if (i - cur >= C.intervaloMin) livres.push(`${hhmm(cur)}–${hhmm(i)}`); cur = Math.max(cur, f); });
+    if (minutos(C.fecha) - cur >= C.intervaloMin) livres.push(`${hhmm(cur)}–${hhmm(minutos(C.fecha))}`);
+    if (livres.length) { L.push(""); L.push(`🟢 Livre: ${livres.join(", ")}`); }
+  }
+  if (canc.length) { L.push(""); L.push(`❌ Cancelada${canc.length > 1 ? "s" : ""}: ${canc.map((x) => local(x.inicio).hora + " " + (x.paciente?.nome || "")).join(", ")}`); }
+  L.push(""); L.push("— Enviado pela assistente");
+  return L.join("\n");
+}
+$("#enviarAgenda").onclick = async () => {
+  if (agDados.dia !== agDia) await carregarAgenda();
+  const n = telDigitos(C.whatsapp);
+  if (!n) { aviso("O WhatsApp da Jimena não está configurado.", "erro"); return; }
+  window.open(`https://wa.me/55${n}?text=${encodeURIComponent(textoAgenda(agDados))}`, "_blank");
+};
+
 $("#agAnt").onclick = () => { agDia = somaDias(agDia, -1); carregarAgenda(); };
 $("#agProx").onclick = () => { agDia = somaDias(agDia, 1); carregarAgenda(); };
 
