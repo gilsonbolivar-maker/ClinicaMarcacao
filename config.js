@@ -1,16 +1,16 @@
 // Configurações da clínica — troque aqui sem mexer no resto do código.
 window.CONFIG = {
-  versao: "1.1.3",
+  versao: "1.1.4",
   clinica: "Jimena Andrade",
   subtitulo: "Odontologia e Estética",
 
   // Informações da página pública. O que ficar vazio ("") não aparece no site.
-  sobre: "Atendimento em Odontologia e Estética, com horário marcado.",
+  sobre: "Contra os efeitos do tempo. A favor da sua beleza. Harmonização orofacial: botox, preenchimentos e bioestimuladores de colágeno.",
   registro: "",     // ex.: "CRO-BA 00000"
-  whatsapp: "",     // só números, com DDD. ex.: "77999990000"
-  endereco: "",     // ex.: "Rua Tal, 123 — Centro"
-  cidade: "",       // ex.: "Caetité — BA"
-  instagram: "",    // ex.: "jimenaandrade" (sem @)
+  whatsapp: "77998000177",     // só números, com DDD. ex.: "77999990000"
+  endereco: "Avenida Santana, 328",     // ex.: "Rua Tal, 123 — Centro"
+  cidade: "Caetité — BA",       // ex.: "Caetité — BA"
+  instagram: "jimennandrade",    // ex.: "jimenaandrade" (sem @)
 
   // Remarcação pelo site: só com esta antecedência (em horas). O banco também confere.
   antecedenciaRemarcarHoras: 72,

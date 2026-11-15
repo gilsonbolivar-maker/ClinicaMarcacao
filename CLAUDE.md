@@ -7,5 +7,5 @@
 - Página pública = `index.html`; equipe entra por `entrar.html`; paciente usa `cliente.html`.
 - Paciente não lê tabelas direto: tudo passa por funções `clinica_*` (security definer). Login do paciente = `<telefone>@paciente.clinica`.
 - Horário de atendimento está em dois lugares que precisam combinar: `config.js` e a função `clinica_horario_valido` no banco.
-- Dados reais da Jimena (texto, registro, endereço, WhatsApp, foto) ainda não foram informados: campos vazios em `config.js`. Não inventar.
+- Dados da Jimena em `config.js` vieram do perfil dela no Instagram (@jimennandrade), enviado pelo Gilson. Ainda faltam: foto e número de registro profissional. Não inventar.
 - Ao mudar a versão em `config.js`, trocar também o `?v=` dos arquivos nos `.html` (evita o navegador mostrar arquivo antigo).
