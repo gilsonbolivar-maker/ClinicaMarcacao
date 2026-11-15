@@ -25,17 +25,18 @@
     </div>
 
     <div class="cartao" id="abaInscricao">
-      <p style="margin:0 0 14px"><b>Faça sua inscrição</b><br><span class="dica">Depois você já escolhe o dia e o horário da consulta.</span></p>
-      <form id="fInscricao">
-        <label class="dica">Nome completo</label>
+      <p style="margin:0 0 14px"><b>Faça sua inscrição</b><br><span class="dica">Os quatro campos são obrigatórios. Depois você já escolhe o dia e o horário da consulta.</span></p>
+      <form id="fInscricao" novalidate>
+        <label class="dica">Nome completo (obrigatório)</label>
         <input type="text" id="iNome" autocomplete="name" required>
         <div class="linha2" style="margin-top:10px">
-          <div><label class="dica">Telefone / WhatsApp</label><input type="tel" id="iTel" placeholder="(77) 99999-0000" autocomplete="tel" required></div>
-          <div><label class="dica">Nascimento</label><input type="date" id="iNasc" required></div>
+          <div><label class="dica">Telefone com DDD (obrigatório)</label><input type="tel" id="iTel" placeholder="(77) 99999-0000" autocomplete="tel" required></div>
+          <div><label class="dica">Data de nascimento (obrigatório)</label><input type="date" id="iNasc" required></div>
         </div>
-        <label class="dica" style="display:block;margin-top:10px">Crie uma senha (mínimo 6 caracteres)</label>
+        <label class="dica" style="display:block;margin-top:10px">Crie uma senha, com 6 caracteres ou mais (obrigatório)</label>
         <input type="password" id="iSenha" minlength="6" autocomplete="new-password" required>
-        <button class="btn grande" style="margin-top:14px">Fazer inscrição</button>
+        <button class="btn grande" id="btnInscricao" style="margin-top:14px" disabled>Fazer inscrição</button>
+        <div class="dica centro" id="faltaInscricao"></div>
       </form>
     </div>
 
@@ -128,9 +129,30 @@ async function entrar(tel, senha) {
   if (error) { aviso("Telefone ou senha incorretos.", "erro"); return false; }
   return true;
 }
+// Os quatro campos são obrigatórios: sem todos preenchidos, o botão não libera
+function faltaNaInscricao() {
+  const falta = [];
+  const nome = $("#iNome").value.trim().split(/\s+/).filter(Boolean);
+  if (nome.length < 2 || nome.join("").length < 3) falta.push("nome completo (nome e sobrenome)");
+  if (![10, 11].includes(telDigitos($("#iTel").value).length)) falta.push("telefone com DDD");
+  const nasc = $("#iNasc").value;
+  if (!nasc || nasc > hojeISO() || nasc < "1900-01-01") falta.push("data de nascimento");
+  if ($("#iSenha").value.length < 6) falta.push("senha com 6 caracteres ou mais");
+  return falta;
+}
+function conferirInscricao() {
+  const falta = faltaNaInscricao();
+  $("#btnInscricao").disabled = falta.length > 0;
+  $("#faltaInscricao").textContent = falta.length ? "Falta preencher: " + falta.join(", ") + "." : "";
+  return falta;
+}
+["iNome", "iTel", "iNasc", "iSenha"].forEach((i) => ["input", "change"].forEach((ev) => $("#" + i).addEventListener(ev, conferirInscricao)));
+conferirInscricao();
+
 $("#fInscricao").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const btn = $("button", e.target); btn.disabled = true;
+  if (conferirInscricao().length) return;
+  const btn = $("#btnInscricao"); btn.disabled = true;
   const tel = $("#iTel").value, senha = $("#iSenha").value;
   const { error } = await sb.rpc("clinica_cadastrar", { p_nome: $("#iNome").value, p_telefone: tel, p_nascimento: $("#iNasc").value || null, p_senha: senha });
   btn.disabled = false;
