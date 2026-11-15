@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1e5550">
+<meta name="theme-color" content="#F5EFE6">
 <meta name="description" content="Jimena Andrade — Harmonização Orofacial. Botox, preenchimentos e bioestimuladores de colágeno em Caetité. Peça sua primeira consulta ou remarque seu atendimento pela internet.">
 <title>Jimena Andrade — Harmonização Orofacial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="estilo.css?v=1.2.0">
+<link rel="stylesheet" href="estilo.css?v=1.2.1">
 </head>
 <body class="publico">
 
@@ -33,6 +33,12 @@
 
 <main>
   <section class="hero">
+    <figure class="retrato">
+      <picture>
+        <source srcset="foto-profissional.webp" type="image/webp">
+        <img id="fotoProfissional" src="foto-profissional.jpg" width="900" height="1325" alt="Jimena Andrade">
+      </picture>
+    </figure>
     <div class="hero-texto">
       <p class="eyebrow" data-subtitulo></p>
       <h1 data-clinica></h1>
@@ -125,10 +131,11 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=1.2.0"></script>
-<script src="comum.js?v=1.2.0"></script>
+<script src="config.js?v=1.2.1"></script>
+<script src="comum.js?v=1.2.1"></script>
 <script>
 $("#sobre").textContent = C.sobre;
+if (C.clinica) $("#fotoProfissional").alt = "Foto de " + C.clinica;
 $("#horasRegra").textContent = C.antecedenciaRemarcarHoras;
 if (C.registro) { $("#registro").hidden = false; $("#registro").textContent = C.registro; }
 
