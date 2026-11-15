@@ -9,3 +9,4 @@
 - Horário de atendimento está em dois lugares que precisam combinar: `config.js` e a função `clinica_horario_valido` no banco.
 - Dados da Jimena em `config.js` vieram do perfil dela no Instagram (@jimennandrade), enviado pelo Gilson. Ainda faltam: foto e número de registro profissional. Não inventar.
 - Ao mudar a versão em `config.js`, trocar também o `?v=` dos arquivos nos `.html` (evita o navegador mostrar arquivo antigo).
+- Avisos no WhatsApp da Jimena: gatilhos no banco (`clinica_aviso_marcacao`, `clinica_aviso_inscricao`) chamam `clinica_enviar_aviso`, que usa CallMeBot via pg_net. Chave em `clinica_avisos_config` (fechada para as páginas; `ativo` + `apikey`). Cada aviso fica em `clinica_avisos_log`. O que a própria Jimena faz não gera aviso.
