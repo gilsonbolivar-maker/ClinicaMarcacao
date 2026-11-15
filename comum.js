@@ -116,7 +116,7 @@ function bip() {
 function rodape() {
   const v = document.createElement("div");
   v.className = "versao";
-  v.textContent = "v" + C.versao;
+  v.textContent = "Versão " + C.versao;
   document.body.appendChild(v);
 }
 document.addEventListener("DOMContentLoaded", () => {
