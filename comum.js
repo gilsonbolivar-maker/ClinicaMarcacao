@@ -146,3 +146,25 @@ document.addEventListener("DOMContentLoaded", () => {
   $$("[data-clinica]").forEach((e) => (e.textContent = C.clinica));
   $$("[data-subtitulo]").forEach((e) => (e.textContent = C.subtitulo));
 });
+
+// ---------- App instalável ----------
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+let pedidoInstalar = null;
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  pedidoInstalar = e;
+  if ($("#instalarApp")) return;
+  const b = document.createElement("button");
+  b.id = "instalarApp"; b.type = "button"; b.className = "instalar-app";
+  b.textContent = "📲 Instalar app";
+  b.onclick = async () => {
+    if (!pedidoInstalar) return;
+    pedidoInstalar.prompt();
+    await pedidoInstalar.userChoice;
+    pedidoInstalar = null; b.remove();
+  };
+  document.body.appendChild(b);
+});
+window.addEventListener("appinstalled", () => { const b = $("#instalarApp"); if (b) b.remove(); });

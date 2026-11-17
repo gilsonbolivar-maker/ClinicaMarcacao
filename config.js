@@ -1,6 +1,6 @@
 // Configurações da clínica — troque aqui sem mexer no resto do código.
 window.CONFIG = {
-  versao: "1.4.1",
+  versao: "1.5.0",
   clinica: "Jimena Andrade",
   subtitulo: "Harmonização Orofacial",
 
